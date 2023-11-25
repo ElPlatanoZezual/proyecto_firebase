@@ -117,7 +117,6 @@ class _EditarEventoState extends State<EditarEvento> {
                 labelText: 'Fecha del evento',
               ),
               onShowPicker: (context, currentValue) async {
-                // ... (resto del código sin cambios)
               },
             ),
             SizedBox(height: 15),

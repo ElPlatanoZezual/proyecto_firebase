@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:proyecto_firebase/services/getImage.dart';
 
-// Añade esta importación
 
 class DetallesEventoPage extends StatefulWidget {
   final Map<String, dynamic>? evento;
@@ -15,16 +14,14 @@ class DetallesEventoPage extends StatefulWidget {
 }
 
 class _DetallesEventoPageState extends State<DetallesEventoPage> {
-  String imageUrl = ''; // Variable para almacenar la URL de la imagen
+  String imageUrl = '';
 
   @override
   void initState() {
     super.initState();
-    // Obtén la URL de la imagen cuando se inicia la página
     getImageUrlForEvent();
   }
 
-  // Método para obtener la URL de la imagen usando el servicio
   void getImageUrlForEvent() async {
     if (widget.evento != null && widget.evento!['imagen_path'] != null) {
       String imagePath = widget.evento!['imagen_path'];
@@ -51,11 +48,10 @@ class _DetallesEventoPageState extends State<DetallesEventoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Mostrar la foto
             if (imageUrl.isNotEmpty)
               Image.network(
                 imageUrl,
-                width: 200, // Ajusta el tamaño según tus necesidades
+                width: 200,
                 height: 200,
                 fit: BoxFit.cover,
               ),
