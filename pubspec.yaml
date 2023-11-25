@@ -1,0 +1,39 @@
+name: proyecto_firebase
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  cloud_firestore: ^4.13.2
+  firebase_core: ^2.23.0
+  flutter:
+    sdk: flutter
+  image_picker: ^1.0.4
+  material_design_icons_flutter: ^7.0.7296
+  intl: ^0.17.0
+  datetime_picker_formfield_new: ^2.1.0
+  loading_animation_widget: ^1.2.0+4
+  animated_icon_button: ^1.0.2
+  provider: ^6.1.1
+  firebase_auth: ^4.14.1
+  google_sign_in: ^6.1.6
+  firebase_storage: ^11.5.2
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.jpg"
+  min_sdk_android: 21
+
+flutter:
+  uses-material-design: true
