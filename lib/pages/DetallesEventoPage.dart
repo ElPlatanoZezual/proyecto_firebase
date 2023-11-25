@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:proyecto_firebase/services/getImage.dart';
+
+// Añade esta importación
 
 class DetallesEventoPage extends StatefulWidget {
   final Map<String, dynamic>? evento;
@@ -12,6 +15,26 @@ class DetallesEventoPage extends StatefulWidget {
 }
 
 class _DetallesEventoPageState extends State<DetallesEventoPage> {
+  String imageUrl = ''; // Variable para almacenar la URL de la imagen
+
+  @override
+  void initState() {
+    super.initState();
+    // Obtén la URL de la imagen cuando se inicia la página
+    getImageUrlForEvent();
+  }
+
+  // Método para obtener la URL de la imagen usando el servicio
+  void getImageUrlForEvent() async {
+    if (widget.evento != null && widget.evento!['imagen_path'] != null) {
+      String imagePath = widget.evento!['imagen_path'];
+      String url = await getImageUrl(imagePath);
+      setState(() {
+        imageUrl = url;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Timestamp? fechaHora = widget.evento?['fecha_hora'];
@@ -28,6 +51,14 @@ class _DetallesEventoPageState extends State<DetallesEventoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Mostrar la foto
+            if (imageUrl.isNotEmpty)
+              Image.network(
+                imageUrl,
+                width: 200, // Ajusta el tamaño según tus necesidades
+                height: 200,
+                fit: BoxFit.cover,
+              ),
             _buildDetailRow('Nombre', '${widget.evento?['nombre']}'),
             _buildDetailRow('Descripción', '${widget.evento?['descripcion']}'),
             _buildDetailRow('Lugar', '${widget.evento?['lugar']}'),

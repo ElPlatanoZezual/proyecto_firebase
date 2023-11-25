@@ -9,6 +9,7 @@ class Evento{
   final int likes;
   final Timestamp fecha;
   final String tipo;
+  final String idFoto;
 
-  Evento({required this.id, required this.nombre, required this.descripcion, required this.lugar, required this.likes, required this.fecha, required this.tipo});
+  Evento({required this.id, required this.nombre, required this.descripcion, required this.lugar, required this.likes, required this.fecha, required this.tipo, required this.idFoto});
 }

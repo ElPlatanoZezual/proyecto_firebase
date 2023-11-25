@@ -23,7 +23,7 @@ class _AgregarEventoState extends State<AgregarEvento> {
   TextEditingController descripcionController = TextEditingController(text: "");
   TextEditingController lugarController = TextEditingController(text: "");
   TextEditingController tipoController = TextEditingController(text: "");
-  TextEditingController fechaController = TextEditingController();
+  DateTime? fechaSeleccionada;
   int likess = 0;
 
   void mostrarAlertDialog() {
@@ -85,7 +85,6 @@ class _AgregarEventoState extends State<AgregarEvento> {
               maxLines: 3,
             ),
             _buildDateTimeField(
-              controller: fechaController,
               label: 'Fecha del evento',
             ),
             _buildTextField(
@@ -130,21 +129,38 @@ class _AgregarEventoState extends State<AgregarEvento> {
   }
 
   Widget _buildDateTimeField({
-    required TextEditingController controller,
     required String label,
   }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: DateTimeField(
-        controller: controller,
         format: DateFormat("yyyy-MM-dd HH:mm"),
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(),
           contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         ),
+        onChanged: (fechaSeleccionada) {
+          setState(() {
+            this.fechaSeleccionada = fechaSeleccionada;
+          });
+        },
         onShowPicker: (context, currentValue) async {
-          // ... (resto del código sin cambios)
+          final date = await showDatePicker(
+            context: context,
+            firstDate: DateTime(2000),
+            initialDate: currentValue ?? DateTime.now(),
+            lastDate: DateTime(2101),
+          );
+          if (date != null) {
+            final time = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
+            );
+            return DateTimeField.combine(date, time);
+          } else {
+            return currentValue;
+          }
         },
       ),
     );
@@ -178,8 +194,7 @@ class _AgregarEventoState extends State<AgregarEvento> {
     return ElevatedButton(
       onPressed: () async {
         mostrarAlertDialog();
-        Timestamp fechaTimestamp = Timestamp.fromDate(
-            DateFormat("yyyy-MM-dd HH:mm").parse(fechaController.text));
+        Timestamp fechaTimestamp = Timestamp.fromDate(fechaSeleccionada ?? DateTime.now());
         await Future.delayed(Duration(seconds: 3));
         eventosProvider
             .addEventos(
